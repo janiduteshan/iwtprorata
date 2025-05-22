@@ -31,13 +31,10 @@
         <a class="menu__link" href="dashboard.php">Dashboard</a>
       </li>
       <li class="menu__item">
-        <a class="menu__link" href="products.php">Products</a>
+          <a class="menu__link" href="properties.php">Properties</a>
       </li>
       <li class="menu__item">
-        <a class="menu__link" href="brands.php">Brands</a>
-      </li>
-      <li class="menu__item">
-        <a class="menu__link" href="category.php">Category</a>
+          <a class="menu__link" href="property_types.php">Property Types</a>
       </li>
       <li class="menu__item">
         <a class="menu__link" href="users.php">Users</a>
@@ -59,56 +56,70 @@
                     <th>Address</th>
                     <th>City</th>
                     <th>Phone</th>
+                    <th>User Type</th>
                     <th>Reg Date</th>
+                    <th>Action</th>
                 </tr>
-                <tr>
+                
                     <?php
-                    $sql = "SELECT * FROM users";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
-                            ?>
-                        <tr>
-                            <td>
-                                <?php echo $row['user_id']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['username']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['email']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['full_name']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['address']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['city']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['phone']; ?>
-                            </td>
-                           
-                            <td>
-                                <?php echo $row['reg_date']; ?>
-                            </td>
-                        </tr>
-                        <?php
-                        }
+                    // Ensure $conn is available from config.php
+                    if (!isset($conn)) {
+                        // This should not happen if includes are correct
+                        echo "<tr><td colspan='9'>Database connection error.</td></tr>";
                     } else {
-                        echo "0 results";
-                    }
+                        $current_admin_id = $_SESSION['userID'] ?? 0; // Get current admin's ID
+                        $sql = "SELECT user_id, username, email, full_name, address, city, phone, user_type, reg_date FROM users ORDER BY user_id ASC";
+                        $result = $conn->query($sql);
 
+                        if ($result && $result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                                <td><?php echo htmlspecialchars($row['username']); ?></td>
+                                <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                <td><?php echo htmlspecialchars($row['full_name']); ?></td>
+                                <td><?php echo htmlspecialchars($row['address'] ?: 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['city'] ?: 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($row['phone'] ?: 'N/A'); ?></td>
+                                <td>
+                                    <form action="user_process.php" method="POST" class="user-role-form">
+                                        <input type="hidden" name="action" value="update_user_role">
+                                        <input type="hidden" name="user_id_to_update" value="<?php echo $row['user_id']; ?>">
+                                        <select name="new_user_type" <?php if ($row['user_id'] == $current_admin_id) echo 'disabled'; ?>>
+                                            <option value="buyer" <?php if ($row['user_type'] == 'buyer') echo 'selected'; ?>>Buyer</option>
+                                            <option value="seller" <?php if ($row['user_type'] == 'seller') echo 'selected'; ?>>Seller</option>
+                                            <option value="agent" <?php if ($row['user_type'] == 'agent') echo 'selected'; ?>>Agent</option>
+                                            <option value="admin" <?php if ($row['user_type'] == 'admin') echo 'selected'; ?>>Admin</option>
+                                        </select>
+                                </td>
+                                <td><?php echo htmlspecialchars($row['reg_date'] ? date("Y-m-d H:i", strtotime($row['reg_date'])) : 'N/A'); ?></td>
+                                <td>
+                                        <?php if ($row['user_id'] != $current_admin_id): ?>
+                                            <button type="submit" class="btn-update-role">Update Role</button>
+                                        <?php else: ?>
+                                            <span>(Current Admin)</span>
+                                        <?php endif; ?>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php
+                            }
+                        } else {
+                            echo "<tr><td colspan='10'>No users found.</td></tr>";
+                        }
+                    } // end of $conn check
                     ?>
-                </tr>
+                
 
             </table>
         </main>
-
+        <style>
+            .user-role-form { display: flex; align-items: center; gap: 5px; }
+            .user-role-form select { padding: 5px; border-radius: 3px; border: 1px solid #ccc; }
+            .user-role-form .btn-update-role { padding: 5px 10px; font-size:0.9em; background-color: #007bff; color:white; border:none; border-radius:3px; cursor:pointer; }
+            .user-role-form .btn-update-role:hover { background-color: #0056b3; }
+        </style>
     </div>
 </body>
 

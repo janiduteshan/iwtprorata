@@ -40,6 +40,15 @@
                             <label for="conPassword">Re-enter Password:</label>
                             <input type="password" name="conPassword" id="conPassword" placeholder="Re-enter Password" required/>
                         </div>
+                        <div class="login_box">
+                            <label for="user_type">Register as:</label>
+                            <select name="user_type" id="user_type" required>
+                                <option value="" disabled selected>Select role</option>
+                                <option value="buyer">Buyer</option>
+                                <option value="seller">Seller</option>
+                                <option value="agent">Agent</option>
+                            </select>
+                        </div>
                         <div class="remember-forget">
                             <label><input type="checkbox">Remember me</label>
                             <a href="#">Forget password</a>

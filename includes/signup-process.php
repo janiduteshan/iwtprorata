@@ -6,30 +6,52 @@ if (isset($_POST['signup'])) {
     $fullName = $_POST["fullName"];
     $email = $_POST["email"];
     $username = $_POST["username"];
-    $password = $_POST["password"];
+    $password = $_POST["password"]; // In a real application, hash this password!
+    $user_type = $_POST["user_type"];
 
-    $sql = "INSERT INTO users (`username`, `password`, `full_name`, `email`, `reg_date`) 
-            VALUES ('$username', '$password', '$fullName', '$email', NOW())";
-    $result = mysqli_query($conn, $sql);
+    // Validate user_type
+    $allowed_user_types = ['buyer', 'seller', 'agent'];
+    if (!in_array($user_type, $allowed_user_types)) {
+        echo "
+            <script>
+                alert('Invalid user role selected.');
+                window.location.href = '../signup.php'; // Redirect back to the signup page
+            </script>
+        ";
+        exit();
+    }
 
-    if ($result) {
+    // Use prepared statements to prevent SQL injection
+    $stmt = $conn->prepare("INSERT INTO users (`username`, `password`, `full_name`, `email`, `user_type`, `reg_date`) VALUES (?, ?, ?, ?, ?, NOW())");
+    if ($stmt === false) {
+        die("Error preparing statement: " . $conn->error);
+    }
+
+    // Bind parameters: s = string
+    $stmt->bind_param("sssss", $username, $password, $fullName, $email, $user_type);
+
+    if ($stmt->execute()) {
         echo "
             <script>
                 alert('Registration successful! Please sign in with your credentials.');
                 window.location.href = '../signin.php'; // Redirect to the login page
             </script>
         ";
-        // header("Location: ../signin.php");
-        exit(); // Terminate the script after the redirect
     } else {
+        // Check for specific errors, e.g., duplicate username/email if you have unique constraints
+        $error_message = "Registration Failed. Error: " . $stmt->error;
+        if ($stmt->errno == 1062) { // Error number for duplicate entry
+            $error_message = "Registration Failed. Username or Email already exists.";
+        }
         echo "
             <script>
-                alert('Registration Failed.');
+                alert('" . addslashes($error_message) . "');
                 window.location.href = '../signup.php'; // Redirect back to the signup page
             </script>
         ";
-        // header("Location: ../signup.php");
-        exit(); // Terminate the script after the redirect
     }
+    $stmt->close();
+    $conn->close();
+    exit(); // Terminate the script
 }
 ?>
