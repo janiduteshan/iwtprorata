@@ -3,6 +3,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Red Rooster Farm STORE</title>
 
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <!-- Main CSS File -->
     <link rel="stylesheet" href="assets/css/styles.css">
 

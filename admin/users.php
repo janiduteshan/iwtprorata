@@ -46,6 +46,7 @@
   </nav>
         <main class="admin__main">
             <h2>Registered Users</h2>
+            <a href="user_add.php" class="btn-add-new">Create New User</a>
             <br>
             <table id="customers">
                 <tr>
@@ -95,12 +96,19 @@
                                 </td>
                                 <td><?php echo htmlspecialchars($row['reg_date'] ? date("Y-m-d H:i", strtotime($row['reg_date'])) : 'N/A'); ?></td>
                                 <td>
-                                        <?php if ($row['user_id'] != $current_admin_id): ?>
-                                            <button type="submit" class="btn-update-role">Update Role</button>
-                                        <?php else: ?>
-                                            <span>(Current Admin)</span>
-                                        <?php endif; ?>
+                                    <?php if ($row['user_id'] != $current_admin_id): ?>
+                                        <button type="submit" class="btn-update-role">Update Role</button>
+                                    <?php else: ?>
+                                        <span>(Current Admin)</span>
+                                    <?php endif; ?>
                                     </form>
+                                    <?php if ($row['user_id'] != $current_admin_id): ?>
+                                    <form action="user_process.php" method="POST" class="user-delete-form" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
+                                        <input type="hidden" name="action" value="delete_user">
+                                        <input type="hidden" name="user_id_to_delete" value="<?php echo $row['user_id']; ?>">
+                                        <button type="submit" class="btn-delete-user">Delete</button>
+                                    </form>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <?php

@@ -186,26 +186,25 @@ a:hover { color: var(--secondary-color); text-decoration: underline; }
 
 
 /* Header Section & Navigation Bar */
-nav#nav {
+/* nav#nav {
     width: 100%;
-    background: var(--text-color-light); /* Lighter background for nav */
-    z-index: 1030; /* Ensure it's above other content */
+    background: var(--text-color-light); 
+    z-index: 1030; 
     box-shadow: var(--box-shadow);
-    padding: 0.5rem 0; /* Adjusted padding */
+    padding: 0.5rem 0; 
 }
 
 nav#nav .container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Better spacing for logo, nav, sign-in */
+    justify-content: space-between; 
 }
 
 nav#nav .logo-link img.navbar-brand {
-    /* width: auto; Removed fixed width */
-    height: 50px; /* Adjust as needed */
+    height: 50px; 
     margin-right: 20px;
 }
-nav#nav .logo-link .logo-text { /* If using text logo */
+nav#nav .logo-link .logo-text { 
     font-size: 1.8rem;
     font-family: var(--secondary-font);
     color: var(--primary-color);
@@ -213,52 +212,51 @@ nav#nav .logo-link .logo-text { /* If using text logo */
 }
 
 
-nav#nav .navbar { /* Main navigation links container */
+nav#nav .navbar { 
     display: flex;
     align-items: center;
-    margin: 0; /* Reset margin */
+    margin: 0; 
 }
 
-nav#nav .sign-btn { /* User actions / login/signup container */
+nav#nav .sign-btn { 
     display: flex;
     align-items: center;
-    /* margin-left: auto; Removed as justify-content: space-between is on parent */
     height: auto;
 }
 
 nav#nav .navbar-item {
-    margin: 0 0.75rem; /* Adjusted spacing */
+    margin: 0 0.75rem; 
 }
 
 nav#nav .navbar-item .navbar-link {
-    font-size: 1rem; /* Adjusted font size */
-    font-weight: 500; /* Slightly less bold for regular links */
+    font-size: 1rem; 
+    font-weight: 500; 
     transition: color 0.2s ease-in-out;
     display: block;
-    color: var(--text-color); /* Use default text color */
-    padding: 0.5rem 0; /* Padding for better click area */
+    color: var(--text-color); 
+    padding: 0.5rem 0; 
 }
-nav#nav .navbar-item.active .navbar-link, /* Active state */
+nav#nav .navbar-item.active .navbar-link, 
 nav#nav .navbar-item .navbar-link:hover {
     color: var(--primary-color);
     font-weight: 600;
 }
 
-nav#nav .list-property-btn a.navbar-link { /* Specific styling for the "List Your Property" button */
-    padding: 0.5rem 1rem; /* Match btn-signup */
-    margin-left: 1rem; /* Space from other nav items */
-}
+nav#nav .list-property-btn a.navbar-link { 
+    padding: 0.5rem 1rem; 
+    margin-left: 1rem; 
+} */
 
 
 /* User Dropdown Menu */
-nav#nav .login-menu { /* This is the .subnav container */
-    position: relative; /* For positioning subnav-content */
+/* nav#nav .login-menu { 
+    position: relative; 
     display: flex;
     align-items: center;
     margin-left: 1rem;
 }
 
-nav#nav .login-menu .username-display { /* The clickable username span */
+nav#nav .login-menu .username-display { 
     color: var(--text-color);
     cursor: pointer;
     font-weight: 500;
@@ -267,27 +265,24 @@ nav#nav .login-menu .username-display { /* The clickable username span */
 nav#nav .login-menu .username-display:hover {
     color: var(--primary-color);
 }
-nav#nav .login-menu .username-display i { /* Arrow icon */
+nav#nav .login-menu .username-display i { 
     margin-left: 0.25rem;
 }
 
 nav#nav .subnav-content {
     display: none;
     position: absolute;
-    top: 100%; /* Position below the username */
+    top: 100%; 
     right: 0;
     background-color: var(--text-color-light);
-    min-width: 200px; /* Ensure enough width */
+    min-width: 200px; 
     z-index: 1000;
     box-shadow: var(--box-shadow);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
-    overflow: hidden; /* To respect border-radius on children */
+    overflow: hidden; 
 }
 
 nav#nav .subnav-content li {
-    /* display: flex; Not needed, let them stack */
-    /* flex-direction: column; */
-    /* align-items: center; */
     border-bottom: 1px solid var(--medium-gray-color);
 }
 nav#nav .subnav-content li:last-child {
@@ -296,21 +291,21 @@ nav#nav .subnav-content li:last-child {
 
 nav#nav .subnav-content li a {
     width: 100%;
-    padding: 0.75rem 1rem; /* Adjusted padding */
-    font-size: 0.95rem; /* Slightly smaller font */
+    padding: 0.75rem 1rem; 
+    font-size: 0.95rem; 
     color: var(--text-color);
-    display: block; /* Ensure full width clickable */
+    display: block; 
 }
 
-nav#nav .subnav-content li.active a, /* Active state for dropdown */
+nav#nav .subnav-content li.active a, 
 nav#nav .subnav-content li a:hover {
     background-color: var(--light-gray-color);
     color: var(--primary-color);
 }
 
-nav#nav .login-menu:hover .subnav-content { /* Show on hover */
+nav#nav .login-menu:hover .subnav-content { 
   display: block;
-}
+} */
 
 
 /* 
@@ -318,45 +313,17 @@ nav#nav .login-menu:hover .subnav-content { /* Show on hover */
     Hero Section (home.php)
 ================================= 
 */
-.hero-section { /* Was .my */
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/hero_placeholder.jpg'); /* Generic placeholder */
+/*
+.hero-section { 
     width: 100%;
-    min-height: 70vh; /* Adjusted height */
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: var(--text-color-light);
-    padding: 2rem; /* Padding for content */
 }
-.hero-section h1 {
-    font-size: 3.5rem; /* Adjusted for responsiveness */
-    color: var(--text-color-light);
-    margin-bottom: 1rem;
-}
-.hero-section p {
-    font-size: 1.25rem;
-    max-width: 700px; /* Limit width of paragraph */
-    margin-bottom: 2rem;
-}
-.hero-section .btn { /* Style for button in hero */
-    padding: 0.8rem 2rem;
-    font-size: 1.1rem;
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--secondary-color);
-}
-.hero-section .btn:hover {
-    background-color: #d8b050;
-    border-color: #d8b050;
-}
-
+*/
 
 /* General Form Styling */
+/*
 .form-group {
     margin-bottom: 1.25rem;
 }
@@ -370,7 +337,7 @@ nav#nav .login-menu:hover .subnav-content { /* Show on hover */
 .form-group input[type="email"],
 .form-group input[type="password"],
 .form-group input[type="number"],
-.form-group input[type="tel"], /* Added tel type */
+.form-group input[type="tel"], 
 .form-group input[type="file"],
 .form-group select,
 .form-group textarea {
@@ -395,62 +362,62 @@ nav#nav .login-menu:hover .subnav-content { /* Show on hover */
 .form-group textarea:focus {
     border-color: var(--primary-color);
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(42, 157, 143, 0.25); /* Primary color with opacity */
+    box-shadow: 0 0 0 0.2rem rgba(42, 157, 143, 0.25); 
 }
 .form-group textarea {
     resize: vertical;
     min-height: 120px;
 }
-.form-group small { /* For help text below inputs */
+.form-group small { 
     display: block;
     margin-top: 0.25rem;
     font-size: 0.875em;
     color: var(--dark-gray-color);
 }
+*/
 
 /* Form Row for multiple items in one line */
+/*
 .form-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem; /* Space between items in a row */
+    gap: 1rem; 
 }
 .form-row .form-group {
-    flex: 1 1 calc(50% - 0.5rem); /* Default to 2 items per row, adjust as needed */
-    /* For 3 items: calc(33.333% - 0.66rem) */
+    flex: 1 1 calc(50% - 0.5rem); 
 }
-
+*/
 
 /* Specific Form Styling for Login/Signup */
-.login-form-container { /* Replaces .log-bar for better semantics */
-    display: flex; /* Changed from grid to flex */
+/*
+.login-form-container { 
+    display: flex; 
     justify-content: center;
     align-items: center;
-    padding: 2rem 1rem; /* Padding for the section */
-    background-color: var(--light-gray-color); /* Light background for login/signup page */
+    padding: 2rem 1rem; 
+    background-color: var(--light-gray-color); 
     min-height: 80vh;
 }
-.login-form { /* This is the actual form box */
+.login-form { 
     background: #FFF;
-    padding: 2rem; /* More padding */
+    padding: 2rem; 
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     width: 100%;
-    max-width: 450px; /* Max width for the form box */
+    max-width: 450px; 
 }
 .login-form h2 {
-    font-size: 1.8rem; /* Adjusted size */
+    font-size: 1.8rem; 
     color: var(--secondary-color);
     text-align: center;
     margin-bottom: 1.5rem;
 }
-.login_box { /* Keeping this class name from original HTML structure */
-    position: relative; /* For potential icon positioning if added later */
+.login_box { 
+    position: relative; 
     width: 100%;
-    margin-bottom: 1rem; /* Consistent with .form-group */
-    /* display: flex; Removed, let label and input stack by default */
-    /* flex-direction: column; */
+    margin-bottom: 1rem; 
 }
-.login_box label { /* Using .form-group label style */
+.login_box label { 
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -459,7 +426,7 @@ nav#nav .login-menu:hover .subnav-content { /* Show on hover */
 .login_box input[type="email"], 
 .login_box input[type="password"], 
 .login_box input[type="text"],
-.login_box select { /* Added select for consistency */
+.login_box select { 
     width: 100%;
     padding: 0.75rem;
     font-size: 1rem;
@@ -471,9 +438,9 @@ nav#nav .login-menu:hover .subnav-content { /* Show on hover */
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(42, 157, 143, 0.25);
 }
-.login-form .btn { /* Button within login form */
+.login-form .btn { 
     width: 100%;
-    margin-top: 1rem; /* Space above button */
+    margin-top: 1rem; 
 }
 .login-form .remember-forget {
     display: flex;
@@ -492,7 +459,7 @@ nav#nav .login-menu:hover .subnav-content { /* Show on hover */
 .login-form .register p {
     font-size: 0.9rem;
 }
-
+*/
 
 /*
     Removing old styles like .cards, .card__image--, .product-card, .badge, etc.
@@ -559,10 +526,11 @@ footer .social-icon a:hover {
 
 
 /* Property Card Styling (for home.php featured, LandListings.php, buyer_dashboard.php) */
-.listings-grid { /* Already defined, ensure it's suitable */
+/*
+.listings-grid { 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjust minmax for card size */
-    gap: 25px; /* Spacing between cards */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 25px; 
 }
 
 .listing-card {
@@ -570,7 +538,7 @@ footer .social-icon a:hover {
     border: 1px solid var(--medium-gray-color);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    overflow: hidden; /* Ensures image corners are rounded if image is direct child */
+    overflow: hidden; 
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -579,21 +547,21 @@ footer .social-icon a:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
-.listing-card a { /* Make the whole card clickable if desired, or just parts */
+.listing-card a { 
     text-decoration: none;
-    color: inherit; /* Inherit text color from parent */
+    color: inherit; 
     display: flex;
     flex-direction: column;
-    height: 100%; /* Make link expand to card height */
+    height: 100%; 
 }
 .listing-card .listing-image {
     width: 100%;
-    height: 200px; /* Fixed height for images */
-    object-fit: cover; /* Crop images to fit */
+    height: 200px; 
+    object-fit: cover; 
 }
 .listing-card .listing-details {
     padding: 1rem;
-    flex-grow: 1; /* Allows details to take remaining space */
+    flex-grow: 1; 
     display: flex;
     flex-direction: column;
 }
@@ -613,17 +581,18 @@ footer .social-icon a:hover {
     font-size: 1.3rem;
     font-weight: bold;
     color: var(--primary-color);
-    margin-top: auto; /* Pushes price to the bottom if card heights vary */
-    padding-top: 0.5rem; /* Space above price */
+    margin-top: auto; 
+    padding-top: 0.5rem; 
 }
 .listing-card .listing-details .size {
     font-size: 0.9rem;
     color: var(--text-color);
     margin-bottom: 0.25rem;
 }
-
+*/
 
 /* Search Bar Section (home.php) & Filters Section (LandListings.php) */
+/*
 .search-bar-section, .filters-section {
     background-color: var(--light-gray-color);
     padding: 2rem;
@@ -636,46 +605,47 @@ footer .social-icon a:hover {
     margin-bottom: 1.5rem;
     color: var(--secondary-color);
 }
-.search-form, .filter-form { /* Applied to the form tag */
+.search-form, .filter-form { 
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem; /* Gap between form groups */
+    gap: 1rem; 
 }
 .search-form .form-group, .filter-form .form-group {
-    flex: 1 1 200px; /* Allow items to grow and shrink, with a base size */
-    min-width: 180px; /* Minimum width before wrapping */
+    flex: 1 1 200px; 
+    min-width: 180px; 
 }
 .search-form .form-group button[type="submit"],
 .filter-form .form-group button[type="submit"],
-.filter-form .form-group .btn { /* Targeting .btn inside filter form for alignment */
-    width: 100%; /* Make button take full width of its flex item */
-    padding: 0.75rem; /* Match input height */
-    align-self: flex-end; /* Align button to bottom if rows are uneven height */
+.filter-form .form-group .btn { 
+    width: 100%; 
+    padding: 0.75rem; 
+    align-self: flex-end; 
 }
-/* Ensure last form group in filter form aligns button correctly if it's alone */
 .filter-form .form-row .form-group:last-child { 
-    /* No specific style needed if button is just width 100% in its own group */
 }
-
+*/
 
 /* Dashboard Specific Styles */
+/*
 .dashboard-section {
-    background-color: var(--text-color-light); /* Was #f9f9f9 */
-    padding: 1.5rem; /* Was 20px */
-    border-radius: var(--border-radius); /* Was 8px */
-    margin-bottom: 2rem; /* Was 30px */
-    box-shadow: var(--box-shadow); /* Was 0 2px 4px rgba(0,0,0,0.05) */
+    background-color: var(--text-color-light); 
+    padding: 1.5rem; 
+    border-radius: var(--border-radius); 
+    margin-bottom: 2rem; 
+    box-shadow: var(--box-shadow); 
 }
 .dashboard-section h2 {
-    font-size: 1.8em; /* Consistent with other H2s */
-    color: var(--secondary-color); /* Was #444 */
+    font-size: 1.8em; 
+    color: var(--secondary-color); 
     margin-top: 0;
-    margin-bottom: 1.5rem; /* Was 20px */
-    border-bottom: 1px solid var(--medium-gray-color); /* Was #eee */
-    padding-bottom: 0.75rem; /* Was 10px */
+    margin-bottom: 1.5rem; 
+    border-bottom: 1px solid var(--medium-gray-color); 
+    padding-bottom: 0.75rem; 
 }
+*/
 
 /* Dashboard Inquiries List (buyer, seller, agent) */
+/*
 .inquiries-list .inquiry-item {
     background-color: #fff;
     border: 1px solid var(--medium-gray-color);
@@ -712,16 +682,17 @@ footer .social-icon a:hover {
 .inquiries-list .inquiry-item .inquiry-status.status-new { color: var(--accent-color); }
 .inquiries-list .inquiry-item .inquiry-status.status-read { color: var(--primary-color); }
 .inquiries-list .inquiry-item .inquiry-status.status-replied { color: var(--success-color); }
-
+*/
 
 /* Seller/Agent Dashboard Table for Listings */
+/*
 .listings-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
 }
 .listings-table th, .listings-table td {
-    padding: 0.75rem 1rem; /* Adjusted padding */
+    padding: 0.75rem 1rem; 
     border: 1px solid var(--medium-gray-color);
     text-align: left;
     font-size: 0.95rem;
@@ -732,14 +703,14 @@ footer .social-icon a:hover {
     color: var(--secondary-color);
 }
 .listings-table tr:nth-child(even) {
-    background-color: #fdfdfd; /* Very light alternate row */
+    background-color: #fdfdfd; 
 }
 .listings-table tr:hover {
     background-color: var(--medium-gray-color);
 }
 .listings-table .actions a, .listings-table .actions button {
-    margin-right: 0.3rem; /* 5px */
-    padding: 0.3rem 0.6rem; /* 5px 10px */
+    margin-right: 0.3rem; 
+    padding: 0.3rem 0.6rem; 
     text-decoration: none;
     border-radius: var(--border-radius);
     font-size: 0.85em;
@@ -751,24 +722,26 @@ footer .social-icon a:hover {
 .listings-table .actions .btn-edit:hover { background-color: #d8b050; }
 .listings-table .actions .btn-status { background-color: var(--primary-color); }
 .listings-table .actions .btn-status:hover { background-color: var(--secondary-color); }
-.listings-table .actions .btn-status.btn-available { background-color: var(--success-color); } /* For "Mark Available" */
+.listings-table .actions .btn-status.btn-available { background-color: var(--success-color); } 
 .listings-table .actions .btn-status.btn-available:hover { background-color: #28b463; }
 .listings-table .actions .btn-delete { background-color: var(--danger-color); }
 .listings-table .actions .btn-delete:hover { background-color: #c0392b; }
-
+*/
 
 /* Static Pages (AboutUs, ContactUs) */
+/*
 .about-us-page h1, .contact-us-page h1 {
     text-align: center;
-    margin-bottom: 1.5rem; /* Was 30px */
+    margin-bottom: 1.5rem; 
     color: var(--secondary-color);
 }
 .contact-us-page .sub-heading {
     text-align: center;
-    margin-bottom: 2rem; /* Was 30px */
+    margin-bottom: 2rem; 
     font-size: 1.1em;
     color: var(--dark-gray-color);
 }
+*/
 .content-section { /* Used in AboutUs */
     margin-bottom: 2rem;
     padding: 1.5rem;
@@ -798,40 +771,41 @@ footer .social-icon a:hover {
 }
 
 /* Contact Us Page Specifics */
+/*
 .contact-content-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem; /* Was 30px */
+    gap: 2rem; 
     margin-bottom: 2rem;
 }
 .contact-form-section {
     flex: 2;
     min-width: 300px;
     background-color: var(--light-gray-color);
-    padding: 1.5rem; /* Was 25px */
+    padding: 1.5rem; 
     border-radius: var(--border-radius);
 }
 .contact-info-section {
     flex: 1;
     min-width: 280px;
     background-color: var(--light-gray-color);
-    padding: 1.5rem; /* Was 25px */
+    padding: 1.5rem; 
     border-radius: var(--border-radius);
 }
-.contact-info-section .info-item { margin-bottom: 1.25rem; } /* Was 20px */
+.contact-info-section .info-item { margin-bottom: 1.25rem; } 
 .contact-info-section .info-item h3 {
     font-size: 1.3em;
     color: var(--secondary-color);
-    margin-bottom: 0.5rem; /* Was 8px */
+    margin-bottom: 0.5rem; 
     display: flex;
     align-items: center;
 }
 .contact-info-section .info-item h3 i {
-    margin-right: 0.75rem; /* Was 10px */
+    margin-right: 0.75rem; 
     color: var(--primary-color);
 }
 .contact-info-section .info-item p {
-    font-size: 1rem; /* Was 1em */
+    font-size: 1rem; 
     color: var(--text-color);
 }
 .contact-info-section .info-item a { color: var(--primary-color); }
@@ -840,7 +814,7 @@ footer .social-icon a:hover {
 .map-section { margin-bottom: 2rem; }
 .map-section h2 { margin-bottom: 1rem; color: var(--secondary-color); }
 .map-section iframe { border-radius: var(--border-radius); }
-
+*/
 
 /* Property Detail Page */
 .property-detail-page h1 {
@@ -931,8 +905,14 @@ footer .social-icon a:hover {
     .listings-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
 }
 
+@media (max-width: 992px) {
+    /* .hero-section h1 { font-size: 2.8rem; } */ /* Handled by Tailwind responsive text sizes */
+    /* .hero-section p { font-size: 1.1rem; } */ /* Handled by Tailwind responsive text sizes */
+    /* .listings-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); } */ /* Handled by Tailwind */
+}
+
 @media (max-width: 768px) {
-    nav#nav .container { flex-direction: column; align-items: flex-start; }
+    /* nav#nav .container { flex-direction: column; align-items: flex-start; }
     nav#nav .navbar { width:100%; flex-direction: column; align-items: flex-start; margin-top: 0.5rem; }
     nav#nav .navbar-item { margin: 0.3rem 0; width:100%; }
     nav#nav .navbar-item .navbar-link { padding: 0.5rem; }
@@ -940,25 +920,26 @@ footer .social-icon a:hover {
     nav#nav .sign-btn .navbar-item, nav#nav .sign-btn .login-menu { width:100%; margin: 0.3rem 0;}
     nav#nav .login-menu .username-display { width:100%; }
     nav#nav .subnav-content { position: static; width:100%; box-shadow: none; border-top:1px solid var(--medium-gray-color); }
-    nav#nav .list-property-btn a.navbar-link { margin-left:0; text-align:center; }
+    nav#nav .list-property-btn a.navbar-link { margin-left:0; text-align:center; } */
+    /* These nav rules are complex and heavily reliant on the old structure. The new Tailwind structure uses JS for mobile menu, so these direct CSS are less relevant or might conflict. */
 
 
-    .hero-section h1 { font-size: 2.2rem; }
-    .hero-section p { font-size: 1rem; }
-    .search-form .form-group, .filter-form .form-group { flex-basis: calc(50% - 0.5rem); } /* Two columns on tablet */
-    .contact-content-wrapper { flex-direction: column; }
-    .listings-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    /* .hero-section h1 { font-size: 2.2rem; } */ /* Handled by Tailwind */
+    /* .hero-section p { font-size: 1rem; } */ /* Handled by Tailwind */
+    /* .search-form .form-group, .filter-form .form-group { flex-basis: calc(50% - 0.5rem); } */ /* Handled by Tailwind */
+    /* .contact-content-wrapper { flex-direction: column; } */ /* Handled by Tailwind */
+    /* .listings-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } */ /* Handled by Tailwind */
 }
 
 @media (max-width: 576px) {
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-    .hero-section { min-height: 60vh; }
-    .hero-section h1 { font-size: 1.8rem; }
-    .hero-section p { font-size: 0.9rem; }
-    .search-form .form-group, .filter-form .form-group { flex-basis: 100%; } /* Single column on mobile */
-    .listings-grid { grid-template-columns: 1fr; /* Single column for cards */ }
-    .form-row .form-group { flex-basis: 100%; } /* Ensure form rows stack on mobile */
+    h1 { font-size: 2.2rem; } /* General h1, might need to be more specific if other h1s exist */
+    h2 { font-size: 1.8rem; } /* General h2 */
+    /* .hero-section { min-height: 60vh; } */ /* Handled by Tailwind */
+    /* .hero-section h1 { font-size: 1.8rem; } */ /* Handled by Tailwind */
+    /* .hero-section p { font-size: 0.9rem; } */ /* Handled by Tailwind */
+    /* .search-form .form-group, .filter-form .form-group { flex-basis: 100%; } */ /* Handled by Tailwind */
+    /* .listings-grid { grid-template-columns: 1fr; } */ /* Handled by Tailwind */
+    /* .form-row .form-group { flex-basis: 100%; } */ /* Handled by Tailwind */
 }
 
 

@@ -29,22 +29,22 @@ echo "<script>document.title = 'Buyer Dashboard - " . htmlspecialchars($_SESSION
         <?php include 'includes/menu.php'; ?>
     </header>
 
-    <div class="container page-container buyer-dashboard-page">
-        <h1>Buyer Dashboard</h1>
-        <p>Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username']); ?>!</p>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Buyer Dashboard</h1>
+        <p class="text-gray-600 mb-8">Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username']); ?>!</p>
 
         <?php
         // Display messages for save/unsave property from toggle_saved_property.php
         if (isset($_GET['save_status_msg'])) {
-            $message_class = ($_GET['save_status_type'] ?? 'info') == 'error' ? 'error-message' : 'success-message';
-            echo "<div class='" . $message_class . "' style='margin-bottom: 15px;'>" . htmlspecialchars(urldecode($_GET['save_status_msg'])) . "</div>";
+            $message_type_class = ($_GET['save_status_type'] ?? 'info') == 'error' ? 'bg-red-100 border-red-400 text-red-700' : 'bg-green-100 border-green-400 text-green-700';
+            echo "<div class='p-4 mb-6 text-sm border rounded-lg " . $message_type_class . "'>" . htmlspecialchars(urldecode($_GET['save_status_msg'])) . "</div>";
         }
         ?>
 
         <!-- My Saved Properties Section -->
-        <section class="dashboard-section saved-properties-section">
-            <h2>My Saved Properties</h2>
-            <div class="listings-grid">
+        <section class="saved-properties-section mb-12 p-6 bg-white rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-700 border-b pb-3">My Saved Properties</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <?php
                 if (isset($conn) && isset($_SESSION['userID'])) {
                     $buyer_id = $_SESSION['userID'];
@@ -62,42 +62,44 @@ echo "<script>document.title = 'Buyer Dashboard - " . htmlspecialchars($_SESSION
 
                         if ($result_saved->num_rows > 0) {
                             while ($prop = $result_saved->fetch_assoc()) {
-                                echo "<div class='listing-card'>";
-                                echo "<a href='PropertyDetail.php?property_id=" . htmlspecialchars($prop['property_id']) . "'>";
+                                echo "<div class='bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition-transform duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1'>";
+                                // Main content link
+                                echo "<a href='PropertyDetail.php?property_id=" . htmlspecialchars($prop['property_id']) . "' class='block flex-grow flex flex-col'>";
                                 $image_path = !empty($prop['main_image_url']) ? htmlspecialchars($prop['main_image_url']) : 'assets/images/placeholder_property.png';
-                                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($prop['title']) . "' class='listing-image'>";
-                                echo "<div class='listing-details'>";
-                                echo "<h3>" . htmlspecialchars($prop['title']) . "</h3>";
-                                echo "<p class='location'>" . htmlspecialchars($prop['location_text']) . "</p>";
-                                echo "<p class='price'>$" . number_format($prop['price'], 2) . "</p>";
-                                // echo "<p class='size'>" . htmlspecialchars($prop['size_value']) . " " . htmlspecialchars($prop['size_unit']) . "</p>";
-                                echo "</div>"; // end listing-details
-                                // Add Remove from Saved button
-                                echo "<div class='listing-actions' style='padding: 0 15px 15px;'>";
-                                echo "<a href='includes/toggle_saved_property.php?property_id=" . htmlspecialchars($prop['property_id']) . "' class='btn btn-danger btn-sm btn-remove-saved'><i class='ri-delete-bin-line'></i> Remove</a>";
+                                echo "<img src='" . $image_path . "' alt='" . htmlspecialchars($prop['title']) . "' class='w-full h-40 object-cover'>"; // Adjusted height for dashboard
+                                echo "<div class='p-4 flex-grow flex flex-col'>"; // Adjusted padding
+                                echo "<h3 class='text-md font-semibold text-gray-800 mb-1'>" . htmlspecialchars($prop['title']) . "</h3>";
+                                echo "<p class='text-xs text-gray-600 mb-1 flex items-center'><i class='ri-map-pin-line mr-1 text-green-500'></i>" . htmlspecialchars($prop['location_text']) . "</p>";
+                                if (!empty($prop['size_value']) && !empty($prop['size_unit'])) { 
+                                    echo "<p class='text-xs text-gray-600 mb-2 flex items-center'><i class='ri-fullscreen-line mr-1 text-green-500'></i>" . htmlspecialchars($prop['size_value']) . " " . htmlspecialchars($prop['size_unit']) . "</p>";
+                                }
+                                echo "<p class='text-lg font-bold text-green-600 mt-auto'>$" . number_format($prop['price'], 2) . "</p>";
+                                echo "</div>"; 
+                                echo "</a>"; 
+
+                                echo "<div class='p-3 border-t border-gray-200'>";
+                                echo "<a href='includes/toggle_saved_property.php?property_id=" . htmlspecialchars($prop['property_id']) . "' class='w-full text-center px-3 py-2 text-xs font-medium rounded-md shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 flex items-center justify-center'><i class='ri-delete-bin-line mr-1'></i> Remove</a>";
                                 echo "</div>";
-                                echo "</a>"; // This a tag wraps the main content for navigation to detail page
-                                echo "</div>"; // end listing-card
+                                echo "</div>"; 
                             }
                         } else {
-                            echo "<p class='no-results'>You haven't saved any properties yet.</p>";
+                            echo "<p class='col-span-full text-center text-gray-500 py-8'>You haven't saved any properties yet.</p>";
                         }
                         $stmt_saved->close();
                     } else {
-                        echo "<p class='no-results'>Error preparing to fetch saved properties.</p>";
-                        // Log error: $conn->error;
+                        echo "<p class='col-span-full text-center text-red-500 py-8'>Error preparing to fetch saved properties.</p>";
                     }
                 } else {
-                    echo "<p class='no-results'>Could not fetch saved properties. Please ensure you are logged in.</p>";
+                    echo "<p class='col-span-full text-center text-red-500 py-8'>Could not fetch saved properties. Please ensure you are logged in.</p>";
                 }
                 ?>
             </div>
         </section>
 
         <!-- My Inquiries & Messages Section -->
-        <section class="dashboard-section inquiries-section">
-            <h2>My Inquiries & Messages</h2>
-            <div class="inquiries-list">
+        <section class="inquiries-section p-6 bg-white rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-700 border-b pb-3">My Inquiries & Messages</h2>
+            <div class="space-y-4">
                 <?php
                 if (isset($conn) && isset($_SESSION['userID'])) {
                     $buyer_id = $_SESSION['userID'];
@@ -115,25 +117,27 @@ echo "<script>document.title = 'Buyer Dashboard - " . htmlspecialchars($_SESSION
 
                         if ($result_inquiries->num_rows > 0) {
                             while ($inq = $result_inquiries->fetch_assoc()) {
-                                echo "<div class='inquiry-item'>";
-                                echo "<h4><a href='PropertyDetail.php?property_id=" . htmlspecialchars($inq['property_id']) . "'>" . htmlspecialchars($inq['property_title']) . "</a></h4>";
-                                echo "<p class='message-snippet'>Your message: \"" . htmlspecialchars(substr($inq['message'], 0, 100)) . (strlen($inq['message']) > 100 ? "..." : "") . "\"</p>";
-                                echo "<p class='inquiry-date'>Date: " . date("F j, Y, g:i a", strtotime($inq['inquiry_date'])) . "</p>";
-                                echo "<p class='inquiry-status'>Status: " . htmlspecialchars(ucfirst($inq['status'])) . "</p>";
-                                // Optional: Link to view full inquiry/conversation later
-                                // echo "<a href='view_inquiry.php?inquiry_id=" . $inq['inquiry_id'] . "' class='btn-view-inquiry'>View Details</a>";
-                                echo "</div>"; // end inquiry-item
+                                $status_color = 'text-gray-600';
+                                if ($inq['status'] == 'new') $status_color = 'text-blue-600';
+                                if ($inq['status'] == 'read') $status_color = 'text-green-600';
+                                if ($inq['status'] == 'replied') $status_color = 'text-purple-600';
+
+                                echo "<div class='p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200'>";
+                                echo "<h4 class='text-md font-semibold text-gray-800'><a href='PropertyDetail.php?property_id=" . htmlspecialchars($inq['property_id']) . "' class='hover:text-green-600'>" . htmlspecialchars($inq['property_title']) . "</a></h4>";
+                                echo "<p class='text-sm text-gray-600 mt-1 italic'>Your message: \"" . htmlspecialchars(substr($inq['message'], 0, 100)) . (strlen($inq['message']) > 100 ? "..." : "") . "\"</p>";
+                                echo "<p class='text-xs text-gray-500 mt-2'>Date: " . date("F j, Y, g:i a", strtotime($inq['inquiry_date'])) . "</p>";
+                                echo "<p class='text-sm font-medium mt-1 " . $status_color . "'>Status: " . htmlspecialchars(ucfirst($inq['status'])) . "</p>";
+                                echo "</div>"; 
                             }
                         } else {
-                            echo "<p class='no-results'>You haven't made any inquiries yet.</p>";
+                            echo "<p class='text-center text-gray-500 py-8'>You haven't made any inquiries yet.</p>";
                         }
                         $stmt_inquiries->close();
                     } else {
-                        echo "<p class='no-results'>Error preparing to fetch your inquiries.</p>";
-                        // Log error: $conn->error;
+                        echo "<p class='text-center text-red-500 py-8'>Error preparing to fetch your inquiries.</p>";
                     }
                 } else {
-                    echo "<p class='no-results'>Could not fetch inquiries. Please ensure you are logged in.</p>";
+                    echo "<p class='text-center text-red-500 py-8'>Could not fetch inquiries. Please ensure you are logged in.</p>";
                 }
                 ?>
             </div>

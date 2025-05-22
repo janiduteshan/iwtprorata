@@ -46,7 +46,7 @@
   </nav>
         <main class="admin__main">
             <h2>Manage Properties</h2>
-            <!-- <a href="property_add.php" class="btn">Add Property</a> --> <!-- Admin typically doesn't add, but manages -->
+            <a href="property_add.php" class="btn btn-add-new">Add Property</a> <!-- Admin typically doesn't add, but manages -->
             <table id="customers">
                 <thead>
                     <tr>

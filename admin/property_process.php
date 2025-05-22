@@ -140,6 +140,98 @@ if ($action == 'edit_property_admin' && isset($_POST['editPropertyAdmin'])) {
 
 } else {
     redirect_admin_prop('properties.php', 'Invalid action or parameters.', 'error');
+} elseif ($action == 'create_property_admin') {
+    // --- CREATE PROPERTY (ADMIN) ---
+    $_SESSION['form_data'] = $_POST; // Preserve form data on error
+
+    $seller_id = filter_input(INPUT_POST, 'seller_id', FILTER_VALIDATE_INT);
+    $title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING));
+    $description = trim(filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING));
+    $location_text = trim(filter_input(INPUT_POST, 'location_text', FILTER_SANITIZE_STRING));
+    $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
+    $size_value = filter_input(INPUT_POST, 'size_value', FILTER_VALIDATE_FLOAT);
+    $size_unit = trim(filter_input(INPUT_POST, 'size_unit', FILTER_SANITIZE_STRING));
+    $property_type_id = filter_input(INPUT_POST, 'property_type_id', FILTER_VALIDATE_INT);
+    $status = trim(filter_input(INPUT_POST, 'status', FILTER_SANITIZE_STRING));
+
+    // Validate required fields
+    if (!$seller_id || empty($title) || empty($description) || empty($location_text) || $price === false || $size_value === false || empty($size_unit) || !$property_type_id || empty($status)) {
+        redirect_admin_prop('property_add.php', 'Please fill all required fields.', 'error');
+    }
+
+    // Validate seller_id
+    $sql_check_seller = "SELECT user_id FROM users WHERE user_id = ? AND user_type IN ('seller', 'agent', 'admin')"; // Admin can also be a seller
+    $stmt_check_seller = $conn->prepare($sql_check_seller);
+    $stmt_check_seller->bind_param("i", $seller_id);
+    $stmt_check_seller->execute();
+    $stmt_check_seller->store_result();
+    if ($stmt_check_seller->num_rows == 0) {
+        $stmt_check_seller->close();
+        redirect_admin_prop('property_add.php', 'Invalid Seller ID or seller is not of type Seller or Agent.', 'error');
+    }
+    $stmt_check_seller->close();
+
+    $allowed_statuses = ['available', 'sold', 'pending', 'draft', 'removed'];
+    if (!in_array($status, $allowed_statuses)) {
+        redirect_admin_prop('property_add.php', "Invalid status selected.", "error");
+    }
+    
+    $allowed_size_units = ['acres', 'sq_ft', 'hectares', 'sq_m'];
+    if (!in_array($size_unit, $allowed_size_units)) {
+        redirect_admin_prop('property_add.php', "Invalid size unit selected.", "error");
+    }
+
+
+    $main_image_url_to_insert = null;
+    // Handle image upload
+    if (isset($_FILES['main_image']) && $_FILES['main_image']['error'] == UPLOAD_ERR_OK) {
+        if (!file_exists(PROPERTY_UPLOAD_DIR)) {
+            mkdir(PROPERTY_UPLOAD_DIR, 0777, true);
+        }
+        $img_name = $_FILES['main_image']['name'];
+        $img_tmp_name = $_FILES['main_image']['tmp_name'];
+        $img_size = $_FILES['main_image']['size'];
+        $img_ext = strtolower(pathinfo($img_name, PATHINFO_EXTENSION));
+        $allowed_exts = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($img_ext, $allowed_exts)) {
+            if ($img_size <= 2000000) { // Max 2MB
+                $unique_img_name = uniqid('prop_admin_new_', true) . '.' . $img_ext;
+                $destination = PROPERTY_UPLOAD_DIR . $unique_img_name;
+                if (move_uploaded_file($img_tmp_name, $destination)) {
+                    $main_image_url_to_insert = 'assets/images/property_uploads/' . $unique_img_name; // Relative path for DB
+                } else {
+                    redirect_admin_prop('property_add.php', 'Failed to move uploaded image.', 'error');
+                }
+            } else {
+                redirect_admin_prop('property_add.php', 'Image size exceeds 2MB limit.', 'error');
+            }
+        } else {
+            redirect_admin_prop('property_add.php', 'Invalid image format. Allowed: JPG, JPEG, PNG, GIF.', 'error');
+        }
+    } elseif (isset($_FILES['main_image']) && $_FILES['main_image']['error'] != UPLOAD_ERR_NO_FILE) {
+        redirect_admin_prop('property_add.php', 'Error with image upload: ' . $_FILES['main_image']['error'], 'error');
+    }
+
+    // Insert into database
+    $sql_insert = "INSERT INTO properties (seller_id, title, description, location_text, price, size_value, size_unit, property_type_id, status, main_image_url, date_listed, updated_at) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+    $stmt_insert = $conn->prepare($sql_insert);
+    if ($stmt_insert) {
+        $stmt_insert->bind_param("isssdssdsss", $seller_id, $title, $description, $location_text, $price, $size_value, $size_unit, $property_type_id, $status, $main_image_url_to_insert);
+        if ($stmt_insert->execute()) {
+            unset($_SESSION['form_data']); // Clear form data on success
+            redirect_admin_prop('properties.php', 'Property added successfully by admin!', 'success');
+        } else {
+            redirect_admin_prop('property_add.php', 'Error adding property: ' . $stmt_insert->error, 'error');
+        }
+        $stmt_insert->close();
+    } else {
+        redirect_admin_prop('property_add.php', 'Database error preparing to add property: ' . $conn->error, 'error');
+    }
+
+} else {
+    redirect_admin_prop('properties.php', 'Invalid action specified.', 'error');
 }
 
 $conn->close();

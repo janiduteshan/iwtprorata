@@ -22,55 +22,62 @@ echo "<script>document.title = 'Add New Property - Seller Dashboard';</script>";
         <?php include 'includes/menu.php'; ?>
     </header>
 
-    <div class="container page-container add-property-page">
-        <h1>Add New Property</h1>
-        <p>Fill in the details below to list your property.</p>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Add New Property</h1>
+        <p class="text-gray-600 mb-8">Fill in the details below to list your property.</p>
 
         <!-- Display Success/Error Messages -->
         <?php
         if (isset($_GET['message'])) {
-            $message_type = isset($_GET['type']) && $_GET['type'] == 'error' ? 'error-message' : 'success-message';
-            echo "<div class='" . $message_type . "'>" . htmlspecialchars(urldecode($_GET['message'])) . "</div>";
+            $message_type = isset($_GET['type']) && $_GET['type'] == 'error' ? 'text-red-700 bg-red-100 border-red-300' : 'text-green-700 bg-green-100 border-green-300';
+            echo "<div class='p-4 mb-6 text-sm border rounded-lg " . $message_type . "'>" . htmlspecialchars(urldecode($_GET['message'])) . "</div>";
         }
         ?>
 
-        <form action="includes/property_actions.php" method="POST" enctype="multipart/form-data" class="property-form">
+        <form action="includes/property_actions.php" method="POST" enctype="multipart/form-data" class="space-y-6 bg-white p-8 rounded-lg shadow-lg">
             <input type="hidden" name="action" value="add_property">
 
-            <div class="form-group">
-                <label for="title">Property Title:</label>
-                <input type="text" name="title" id="title" required>
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Property Title:</label>
+                <input type="text" name="title" id="title" required
+                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
             </div>
 
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea name="description" id="description" rows="6" required></textarea>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description:</label>
+                <textarea name="description" id="description" rows="5" required
+                          class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="location_text">Location (Address/Area):</label>
-                <input type="text" name="location_text" id="location_text" required>
+            <div>
+                <label for="location_text" class="block text-sm font-medium text-gray-700 mb-1">Location (Address/Area):</label>
+                <input type="text" name="location_text" id="location_text" required
+                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="latitude">Latitude (Optional):</label>
-                    <input type="text" name="latitude" id="latitude" placeholder="e.g., 40.7128">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="latitude" class="block text-sm font-medium text-gray-700 mb-1">Latitude (Optional):</label>
+                    <input type="text" name="latitude" id="latitude" placeholder="e.g., 40.7128"
+                           class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
-                <div class="form-group">
-                    <label for="longitude">Longitude (Optional):</label>
-                    <input type="text" name="longitude" id="longitude" placeholder="e.g., -74.0060">
+                <div>
+                    <label for="longitude" class="block text-sm font-medium text-gray-700 mb-1">Longitude (Optional):</label>
+                    <input type="text" name="longitude" id="longitude" placeholder="e.g., -74.0060"
+                           class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="size_value">Size Value:</label>
-                    <input type="number" name="size_value" id="size_value" step="any" required>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="size_value" class="block text-sm font-medium text-gray-700 mb-1">Size Value:</label>
+                    <input type="number" name="size_value" id="size_value" step="any" required
+                           class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
-                <div class="form-group">
-                    <label for="size_unit">Size Unit:</label>
-                    <select name="size_unit" id="size_unit" required>
+                <div>
+                    <label for="size_unit" class="block text-sm font-medium text-gray-700 mb-1">Size Unit:</label>
+                    <select name="size_unit" id="size_unit" required
+                            class="mt-1 block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                         <option value="acres">Acres</option>
                         <option value="sq_ft">Square Feet</option>
                         <option value="hectares">Hectares</option>
@@ -79,14 +86,16 @@ echo "<script>document.title = 'Add New Property - Seller Dashboard';</script>";
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="price">Price ($):</label>
-                <input type="number" name="price" id="price" step="0.01" required>
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price ($):</label>
+                <input type="number" name="price" id="price" step="0.01" required
+                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
             </div>
 
-            <div class="form-group">
-                <label for="property_type_id">Property Type:</label>
-                <select name="property_type_id" id="property_type_id" required>
+            <div>
+                <label for="property_type_id" class="block text-sm font-medium text-gray-700 mb-1">Property Type:</label>
+                <select name="property_type_id" id="property_type_id" required
+                        class="mt-1 block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                     <option value="" disabled selected>Select Property Type</option>
                     <?php
                     if (isset($conn)) {
@@ -102,22 +111,27 @@ echo "<script>document.title = 'Add New Property - Seller Dashboard';</script>";
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="main_image">Main Image:</label>
-                <input type="file" name="main_image" id="main_image" accept="image/jpeg, image/png, image/gif" required>
-                <small>Accepted formats: JPG, PNG, GIF. Max size: 2MB.</small>
+            <div>
+                <label for="main_image" class="block text-sm font-medium text-gray-700 mb-1">Main Image:</label>
+                <input type="file" name="main_image" id="main_image" accept="image/jpeg, image/png, image/gif" required
+                       class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                <small class="mt-1 text-xs text-gray-500">Accepted formats: JPG, PNG, GIF. Max size: 2MB.</small>
             </div>
             
             <!-- Placeholder for Additional Images - to be implemented if time allows
-            <div class="form-group">
-                <label for="additional_images">Additional Images (Optional):</label>
-                <input type="file" name="additional_images[]" id="additional_images" multiple accept="image/jpeg, image/png, image/gif">
-                <small>You can select multiple images. Max size per image: 2MB.</small>
+            <div>
+                <label for="additional_images" class="block text-sm font-medium text-gray-700 mb-1">Additional Images (Optional):</label>
+                <input type="file" name="additional_images[]" id="additional_images" multiple accept="image/jpeg, image/png, image/gif"
+                       class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                <small class="mt-1 text-xs text-gray-500">You can select multiple images. Max size per image: 2MB.</small>
             </div>
             -->
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-submit">List Property</button>
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    List Property
+                </button>
             </div>
         </form>
     </div><!-- /.container -->
