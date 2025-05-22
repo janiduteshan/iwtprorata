@@ -18,10 +18,9 @@
         if($result->num_rows > 0) {
             $row = $result->fetch_assoc();
 
-            // Verify password (assuming plain text password for now, as per original code)
-            // In a real application, use password_verify($password, $row['password'])
-            if ($password === $row['password']) {
-                $_SESSION['userID'] = $row['user_id']; // Consider renaming to user_id for consistency
+            // Verify password using password_verify()
+            if (password_verify($password, $row['password'])) {
+                $_SESSION['userID'] = $row['user_id'];
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['user_type'] = $row['user_type']; // Standardized to user_type
                 $_SESSION['full_name'] = $row['full_name'];

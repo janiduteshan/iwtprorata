@@ -33,6 +33,14 @@ echo "<script>document.title = 'Buyer Dashboard - " . htmlspecialchars($_SESSION
         <h1>Buyer Dashboard</h1>
         <p>Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username']); ?>!</p>
 
+        <?php
+        // Display messages for save/unsave property from toggle_saved_property.php
+        if (isset($_GET['save_status_msg'])) {
+            $message_class = ($_GET['save_status_type'] ?? 'info') == 'error' ? 'error-message' : 'success-message';
+            echo "<div class='" . $message_class . "' style='margin-bottom: 15px;'>" . htmlspecialchars(urldecode($_GET['save_status_msg'])) . "</div>";
+        }
+        ?>
+
         <!-- My Saved Properties Section -->
         <section class="dashboard-section saved-properties-section">
             <h2>My Saved Properties</h2>
@@ -63,10 +71,12 @@ echo "<script>document.title = 'Buyer Dashboard - " . htmlspecialchars($_SESSION
                                 echo "<p class='location'>" . htmlspecialchars($prop['location_text']) . "</p>";
                                 echo "<p class='price'>$" . number_format($prop['price'], 2) . "</p>";
                                 // echo "<p class='size'>" . htmlspecialchars($prop['size_value']) . " " . htmlspecialchars($prop['size_unit']) . "</p>";
-                                // Optional: Add remove button/link here later
-                                // echo "<a href='remove_saved.php?property_id=" . $prop['property_id'] . "' class='btn-remove-saved'>Remove</a>";
                                 echo "</div>"; // end listing-details
-                                echo "</a>";
+                                // Add Remove from Saved button
+                                echo "<div class='listing-actions' style='padding: 0 15px 15px;'>";
+                                echo "<a href='includes/toggle_saved_property.php?property_id=" . htmlspecialchars($prop['property_id']) . "' class='btn btn-danger btn-sm btn-remove-saved'><i class='ri-delete-bin-line'></i> Remove</a>";
+                                echo "</div>";
+                                echo "</a>"; // This a tag wraps the main content for navigation to detail page
                                 echo "</div>"; // end listing-card
                             }
                         } else {
@@ -136,35 +146,3 @@ echo "<script>document.title = 'Buyer Dashboard - " . htmlspecialchars($_SESSION
     ?>
 </body>
 </html>
-<style>
-/* Basic styling for Buyer Dashboard - can be moved to a CSS file */
-.page-container { padding-top: 20px; padding-bottom: 20px; }
-.buyer-dashboard-page h1 { margin-bottom: 10px; font-size: 2.2em; color: #333; }
-.buyer-dashboard-page > p { margin-bottom: 20px; font-size: 1.1em; }
-
-.dashboard-section { background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-.dashboard-section h2 { font-size: 1.8em; color: #444; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;}
-
-/* Styling for listings grid (can reuse from LandListings.php or styles.css) */
-.listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-.listing-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s ease-in-out; }
-.listing-card:hover { transform: translateY(-5px); }
-.listing-card img.listing-image { width: 100%; height: 180px; object-fit: cover; }
-.listing-card .listing-details { padding: 15px; }
-.listing-card h3 { margin-top: 0; font-size: 1.4em; margin-bottom: 8px; }
-.listing-card .location, .listing-card .price { margin-bottom: 8px; color: #555; }
-.listing-card .price { font-weight: bold; color: #007bff; font-size: 1.15em; }
-.listing-card a { text-decoration: none; color: inherit; }
-
-/* Styling for inquiries list */
-.inquiries-list .inquiry-item { background-color: #fff; border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
-.inquiries-list .inquiry-item h4 { margin-top: 0; margin-bottom: 5px; font-size: 1.2em; }
-.inquiries-list .inquiry-item h4 a { text-decoration: none; color: #0056b3; }
-.inquiries-list .inquiry-item h4 a:hover { text-decoration: underline; }
-.inquiries-list .inquiry-item p { margin-bottom: 5px; font-size: 0.95em; }
-.inquiries-list .inquiry-item .message-snippet { color: #333; font-style: italic; }
-.inquiries-list .inquiry-item .inquiry-date { color: #777; font-size: 0.85em; }
-.inquiries-list .inquiry-item .inquiry-status { font-weight: bold; text-transform: capitalize; }
-
-.no-results { text-align: center; padding: 15px; font-size: 1.1em; color: #777; }
-</style>

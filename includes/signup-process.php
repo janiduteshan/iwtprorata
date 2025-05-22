@@ -6,8 +6,11 @@ if (isset($_POST['signup'])) {
     $fullName = $_POST["fullName"];
     $email = $_POST["email"];
     $username = $_POST["username"];
-    $password = $_POST["password"]; // In a real application, hash this password!
+    $plain_password = $_POST["password"];
     $user_type = $_POST["user_type"];
+
+    // Hash the password
+    $hashed_password = password_hash($plain_password, PASSWORD_DEFAULT);
 
     // Validate user_type
     $allowed_user_types = ['buyer', 'seller', 'agent'];
@@ -28,7 +31,7 @@ if (isset($_POST['signup'])) {
     }
 
     // Bind parameters: s = string
-    $stmt->bind_param("sssss", $username, $password, $fullName, $email, $user_type);
+    $stmt->bind_param("sssss", $username, $hashed_password, $fullName, $email, $user_type);
 
     if ($stmt->execute()) {
         echo "

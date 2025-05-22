@@ -165,6 +165,35 @@ if ($property && !empty($property['title'])) {
                         echo "<p class='error-message'>There was an error submitting your inquiry. Please try again. " . htmlspecialchars($_GET['msg'] ?? '') . "</p>";
                     }
                 }
+
+                // Display messages for save/unsave property
+                if (isset($_GET['save_status_msg'])) {
+                    $message_class = ($_GET['save_status_type'] ?? 'info') == 'error' ? 'error-message' : 'success-message';
+                    echo "<p class='" . $message_class . "'>" . htmlspecialchars(urldecode($_GET['save_status_msg'])) . "</p>";
+                }
+
+
+                // Save/Unsave Property Button for Buyers
+                if (isset($_SESSION['userID']) && isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'buyer') {
+                    $current_user_id = $_SESSION['userID'];
+                    $is_currently_saved = false;
+                    $stmt_check_save = $conn->prepare("SELECT saved_id FROM saved_properties WHERE user_id = ? AND property_id = ?");
+                    if($stmt_check_save){
+                        $stmt_check_save->bind_param("ii", $current_user_id, $property_id);
+                        $stmt_check_save->execute();
+                        $result_check_save = $stmt_check_save->get_result();
+                        if ($result_check_save->num_rows > 0) {
+                            $is_currently_saved = true;
+                        }
+                        $stmt_check_save->close();
+                    }
+                    
+                    $save_button_text = $is_currently_saved ? "Unsave Property <i class='ri-heart-fill'></i>" : "Save Property <i class='ri-heart-line'></i>";
+                    $save_button_class = $is_currently_saved ? "btn btn-secondary" : "btn btn-primary"; // Or custom classes
+                    echo "<div class='property-actions' style='margin-bottom: 20px;'>";
+                    echo "<a href='includes/toggle_saved_property.php?property_id=" . $property['property_id'] . "' class='" . $save_button_class . "'>" . $save_button_text . "</a>";
+                    echo "</div>";
+                }
                 
                 $can_submit_inquiry = true;
                 if (isset($_SESSION['userID']) && $_SESSION['userID'] == $property['seller_id']) {
@@ -209,38 +238,3 @@ if ($property && !empty($property['title'])) {
     ?>
 </body>
 </html>
-<style>
-/* Basic styling for PropertyDetail.php - can be moved to a CSS file */
-.property-detail-page { padding-top: 20px; padding-bottom: 20px; }
-.property-detail-page h1 { margin-bottom: 20px; font-size: 2.5em; color: #333; }
-.property-detail-page h2 { font-size: 1.8em; color: #444; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
-
-.image-gallery-section .main-image img { margin-bottom: 15px; }
-.thumbnail-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-.thumbnail-item img { border: 1px solid #ddd; }
-
-.key-details-section ul { list-style: none; padding: 0; }
-.key-details-section ul li { margin-bottom: 8px; font-size: 1.1em; }
-.key-details-section ul li strong { color: #555; min-width:120px; display:inline-block; }
-
-.seller-info-section p, .map-location-section p { margin-bottom: 8px; font-size: 1.1em; }
-
-.inquiry-form .form-group { margin-bottom: 15px; }
-.inquiry-form .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-.inquiry-form .form-group input[type="text"],
-.inquiry-form .form-group input[type="email"],
-.inquiry-form .form-group input[type="tel"],
-.inquiry-form .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* So padding doesn't add to width */
-}
-.inquiry-form textarea { resize: vertical; }
-.inquiry-form .btn { background-color: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1em; }
-.inquiry-form .btn:hover { background-color: #218838; }
-
-.success-message { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 15px; }
-.error-message { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 15px; }
-</style>

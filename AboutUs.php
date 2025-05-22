@@ -70,15 +70,3 @@ include 'includes/header.php'; // Includes HTML head, title, CSS links
     ?>
 </body>
 </html>
-<style>
-/* Basic styling for About Us page - can be moved to a CSS file */
-.page-container { padding-top: 20px; padding-bottom: 20px; }
-.about-us-page h1 { text-align: center; margin-bottom: 30px; font-size: 2.5em; color: #333; }
-.about-us-page .content-section { margin-bottom: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 8px; }
-.about-us-page .content-section h2 { font-size: 1.8em; color: #444; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-.about-us-page .content-section p, 
-.about-us-page .content-section ul { font-size: 1.1em; line-height: 1.6; color: #555; }
-.about-us-page .content-section ul { list-style: disc; padding-left: 25px; }
-.about-us-page .content-section ul li { margin-bottom: 10px; }
-.why-choose-us ul li strong { color: #333; }
-</style>

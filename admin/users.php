@@ -114,12 +114,6 @@
 
             </table>
         </main>
-        <style>
-            .user-role-form { display: flex; align-items: center; gap: 5px; }
-            .user-role-form select { padding: 5px; border-radius: 3px; border: 1px solid #ccc; }
-            .user-role-form .btn-update-role { padding: 5px 10px; font-size:0.9em; background-color: #007bff; color:white; border:none; border-radius:3px; cursor:pointer; }
-            .user-role-form .btn-update-role:hover { background-color: #0056b3; }
-        </style>
     </div>
 </body>
 

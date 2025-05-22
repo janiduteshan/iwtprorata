@@ -13,6 +13,14 @@ include 'includes/header.php'; // Includes HTML head, title, CSS links
     <div class="container page-container">
         <h1>Available Land Properties</h1>
 
+        <?php
+        // Display messages for save/unsave property from toggle_saved_property.php
+        if (isset($_GET['save_status_msg'])) {
+            $message_class = ($_GET['save_status_type'] ?? 'info') == 'error' ? 'error-message' : 'success-message';
+            echo "<div class='" . $message_class . "' style='margin-bottom: 15px;'>" . htmlspecialchars(urldecode($_GET['save_status_msg'])) . "</div>";
+        }
+        ?>
+
         <!-- Search and Filter Form -->
         <section class="filters-section">
             <form action="LandListings.php" method="GET" class="filter-form">
@@ -180,7 +188,32 @@ include 'includes/header.php'; // Includes HTML head, title, CSS links
                                 echo "<p class='price'>$" . number_format($prop['price'], 2) . "</p>";
                                 echo "<p class='size'>" . htmlspecialchars($prop['size_value']) . " " . htmlspecialchars($prop['size_unit']) . "</p>";
                                 echo "</div>"; // end listing-details
-                                echo "</a>";
+                                // Save/Unsave button for logged-in buyers
+                                if (isset($_SESSION['userID']) && isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'buyer') {
+                                    $current_user_id_for_save = $_SESSION['userID'];
+                                    $property_id_for_save = $prop['property_id'];
+                                    $is_currently_saved_list = false;
+                                    
+                                    // This check inside a loop is not optimal for performance on large lists.
+                                    // A better approach would be to fetch all saved property IDs for the user once outside the loop.
+                                    $stmt_check_save_list = $conn->prepare("SELECT saved_id FROM saved_properties WHERE user_id = ? AND property_id = ?");
+                                    if($stmt_check_save_list) {
+                                        $stmt_check_save_list->bind_param("ii", $current_user_id_for_save, $property_id_for_save);
+                                        $stmt_check_save_list->execute();
+                                        $result_check_save_list = $stmt_check_save_list->get_result();
+                                        if ($result_check_save_list->num_rows > 0) {
+                                            $is_currently_saved_list = true;
+                                        }
+                                        $stmt_check_save_list->close();
+                                    }
+                                    
+                                    $save_button_text_list = $is_currently_saved_list ? "<i class='ri-heart-fill'></i> Unsave" : "<i class='ri-heart-line'></i> Save";
+                                    $save_button_class_list = $is_currently_saved_list ? "btn btn-secondary btn-sm btn-save-toggle" : "btn btn-primary btn-sm btn-save-toggle";
+                                    echo "<div class='listing-actions' style='padding: 0 15px 15px;'>";
+                                    echo "<a href='includes/toggle_saved_property.php?property_id=" . $property_id_for_save . "' class='" . $save_button_class_list . "'>" . $save_button_text_list . "</a>";
+                                    echo "</div>";
+                                }
+                                echo "</a>"; // This <a> tag wraps the card content for navigation
                                 echo "</div>"; // end listing-card
                             }
                         } else {
@@ -204,24 +237,3 @@ include 'includes/header.php'; // Includes HTML head, title, CSS links
     ?>
 </body>
 </html>
-<style>
-/* Basic styling for layout - can be moved to a CSS file */
-.page-container { padding-top: 20px; padding-bottom: 20px; }
-.filters-section { background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-.filter-form .form-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; }
-.filter-form .form-group { flex: 1 1 200px; display: flex; flex-direction: column; }
-.filter-form .form-group label { margin-bottom: 5px; font-weight: bold; }
-.filter-form .form-group input,
-.filter-form .form-group select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em; }
-.filter-btn { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; align-self: flex-end; }
-.filter-btn:hover { background-color: #0056b3; }
-
-.listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.listing-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.listing-card img.listing-image { width: 100%; height: 200px; object-fit: cover; }
-.listing-card .listing-details { padding: 15px; }
-.listing-card h3 { margin-top: 0; font-size: 1.5em; }
-.listing-card .location, .listing-card .price, .listing-card .size, .listing-card .type { margin-bottom: 8px; color: #555; }
-.listing-card .price { font-weight: bold; color: #007bff; font-size: 1.2em; }
-.no-results { text-align: center; padding: 20px; font-size: 1.2em; color: #777; }
-</style>

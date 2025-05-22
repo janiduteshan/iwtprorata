@@ -1,220 +1,413 @@
 /* Global CSS */
-*{
+:root {
+    --admin-primary-color: #264653; /* Dark blue/green from frontend secondary */
+    --admin-secondary-color: #2A9D8F; /* Teal from frontend primary */
+    --admin-accent-color: #E9C46A; /* Yellow accent from frontend */
+    --admin-light-bg: #f4f7fa;
+    --admin-dark-bg: #343a40; /* Darker shade for nav perhaps */
+    --admin-text-color: #333;
+    --admin-text-light: #f8f9fa;
+    --admin-border-color: #dee2e6;
+    --admin-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --admin-border-radius: 5px;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;;
-  }
+    font-family: 'Poppins', sans-serif;
+}
   
-  body {
-    height: 100%;
+body.admin-body { /* Added class to body in admin pages if needed, or style body directly if only admin uses this */
+    height: 100vh; /* Full viewport height */
     overflow-x: hidden;
-  }
+    background-color: var(--admin-light-bg); /* Set background for the entire admin area */
+    color: var(--admin-text-color);
+}
 
-  /* Button Style */
-.btn {
-    box-sizing: border-box;
-    padding: 8px 12px;
-    margin: 10px 0;
-    border-radius: 4px;
+/* General Link Styling for Admin */
+.admin a { /* More specific selector for admin links */
+    color: var(--admin-secondary-color);
+    text-decoration: none;
+}
+.admin a:hover {
+    color: var(--admin-primary-color);
+    text-decoration: underline;
+}
+
+/* Button Style */
+.admin .btn {
     display: inline-block;
+    font-weight: 600;
+    color: var(--admin-text-light);
+    text-align: center;
+    vertical-align: middle;
     cursor: pointer;
-    position: relative;
-    transition: 0.3s ease-in-out;
-    font-size: 16px;
-    font-weight: 700;
-    background: #d1515a;
-    color: #0c0c0c;
-    border: 2px solid #dc5a60; 
+    background-color: var(--admin-secondary-color);
+    border: 1px solid var(--admin-secondary-color);
+    padding: 0.5rem 1rem; /* Adjusted padding */
+    font-size: 0.95rem;
+    border-radius: var(--admin-border-radius);
+    transition: all 0.2s ease-in-out;
+    margin: 5px 0; /* Basic margin */
 }
 
-.btn:hover {
-    background: #df4242;
-    color: #fcfafa;
+.admin .btn:hover {
+    background-color: var(--admin-primary-color);
+    border-color: var(--admin-primary-color);
+    color: var(--admin-text-light);
 }
-  
-  /* Main Layout Grid */
-  .admin {
-    display: flex;
-    flex-wrap: wrap;
-    display: grid;
+.admin .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.admin .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+.admin .btn-primary { /* For primary actions like "Add New" */
+    background-color: var(--admin-primary-color);
+    border-color: var(--admin-primary-color);
+}
+.admin .btn-primary:hover {
+    background-color: #1e353f; /* Darken primary */
+    border-color: #1e353f;
+}
+
+
+/* Main Layout Grid */
+.admin {
+    display: grid; /* Keep grid for main layout */
     height: 100vh;
-    grid-template-rows: 70px auto;
-    grid-template-columns: 250px 1fr;
+    grid-template-rows: 60px auto; /* Slightly smaller header */
+    grid-template-columns: 230px 1fr; /* Slightly narrower nav */
     grid-template-areas:
       "header header"
       "nav main";
-  }
+}
   
-  .admin__header {
+.admin__header {
     display: flex;
-  
     align-items: center;
-    padding-right: 50px;
-    flex-basis: 100%;
+    justify-content: space-between; /* To space logo and toolbar */
+    padding: 0 20px; /* Adjusted padding */
     grid-area: header;
-    height: 70px;
-    background-color: #fff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-    position: relative;
-  }
+    background-color: var(--admin-text-light);
+    box-shadow: var(--admin-box-shadow);
+    z-index: 10; /* Keep header above */
+}
 
-  .admin__header a h1 {
-    font-size: 22px;
-    font-weight: 800;
-  }
-  
-  .admin__nav {
-    flex: 0 0 250px;
-    grid-area: nav;
-    background-color: #313541;
-  }
-
-  .admin__nav .menu {
-    padding: 20px 40px;
-  }
-
-  .menu__item {
-    margin-bottom: 20px;
-    list-style: none;
-  }
-
-  .menu__item a {
-    color: #FFF;
-    font-size: 18px;
-  }
-  
-  .admin__main {
-    grid-area: main;
-    padding: 16px 40px;
-    background-color: #f4f7fa;
-  }
-
-  .toolbar {
-    width: 100%;
+.admin__header .logo {
     display: flex;
-    justify-content: space-between;
-  }
-
-  .toolbar h3 {
-    margin-left: 20px;
-  }
-  
-  /* Dashboard Overview Grid */
-  .dashboard {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 calc(16px * -0.5);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 16px;
-  }
-  
-  .dashboard__item {
-    flex: 1 1 50%;
-    grid-column-end: span 2;
-    padding: calc(16px / 2);
-  }
-  
-  .dashboard__item--full {
-    flex-basis: 100%;
-    grid-column: 1 / -1;
-  }
-  
-  .dashboard__item--col {
-    flex-basis: calc(100% / 2);
-    grid-column-end: span 1;
-  }
-  
-  /* Demo stuff to make it look nice */
-  a {
-    color: #dc5a60;
-    text-decoration: none;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .logo {
-    display: flex;
-    flex: 0 0 250px;
-    height: 70px;
-    justify-content: center;
     align-items: center;
-    position: relative;
-    margin: 0;
-    color: #fff;
-    background-color: #dc5a60;
-  }
-
-
-.card {
-    width: 300px;
-    height: auto;
-    padding: 20px 40px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-    background: #FFF;
+    height: 100%;
+    background-color: transparent; /* Logo bg inherited or transparent */
+    color: var(--admin-primary-color); /* Logo text color */
+    padding: 0; /* Remove padding if logo is just text/image */
+    flex: 0 0 auto; /* Don't let logo container shrink/grow excessively */
+}
+.admin__header .logo h1 {
+    font-size: 1.5rem; /* Adjusted size */
+    font-weight: 700;
+    color: var(--admin-primary-color);
+}
+  
+.admin__nav {
+    grid-area: nav;
+    background-color: var(--admin-dark-bg); /* Darker nav */
+    padding-top: 20px;
+    color: var(--admin-text-light);
 }
 
-.card a {
-    font-size: 18px;
-    font-weight: 800;
+.admin__nav .menu {
+    padding: 0; /* Remove default padding if items have their own */
+    list-style: none; /* Ensure list style is none */
 }
 
-.row {
+.admin__nav .menu__item {
+    margin-bottom: 0; /* Remove bottom margin, use padding on links */
+}
+
+.admin__nav .menu__item a.menu__link { /* Target the link directly */
+    display: block;
+    padding: 12px 20px; /* Consistent padding */
+    color: #ccc; /* Lighter text for nav links */
+    font-size: 1rem; /* Adjusted size */
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+}
+.admin__nav .menu__item a.menu__link:hover {
+    background-color: var(--admin-primary-color);
+    color: var(--admin-text-light);
+    padding-left: 25px; /* Indent on hover */
+}
+.admin__nav .menu__item a.menu__link.active { /* Style for active link */
+    background-color: var(--admin-secondary-color);
+    color: var(--admin-text-light);
+    font-weight: 600;
+}
+  
+.admin__main {
+    grid-area: main;
+    padding: 25px; /* Consistent padding */
+    background-color: var(--admin-light-bg);
+    overflow-y: auto; /* Allow scrolling for main content */
+}
+.admin__main h2 { /* Styling for main section titles */
+    font-family: 'Poppins', sans-serif; /* More readable font for titles */
+    font-size: 1.8rem;
+    color: var(--admin-primary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--admin-border-color);
+    padding-bottom: 0.5rem;
+}
+
+
+.admin__header .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between toolbar items */
+}
+.admin__header .toolbar h3 {
+    font-size: 1rem;
+    color: var(--admin-text-color);
+    margin: 0; /* Reset margin */
+}
+.admin__header .toolbar .logout {
+    font-size: 0.9rem;
+    color: var(--admin-secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.admin__header .toolbar .logout:hover {
+    color: var(--admin-primary-color);
+}
+
+  
+/* Dashboard Cards */
+.admin .dashboard-cards { /* Specific class for the row of cards */
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 20px; /* Was 25px */
+    margin-bottom: 2rem;
 }
 
-/* table style */
-table {
+.admin .card { /* Re-style admin card */
+    flex: 1 1 250px; /* Responsive cards */
+    min-width: 230px;
+    background: var(--admin-text-light);
+    padding: 1.5rem; /* Was 20px 40px */
+    border-radius: var(--admin-border-radius); /* Was 12px */
+    box-shadow: var(--admin-box-shadow); /* Softer shadow */
+    display: flex;
+    flex-direction: column;
+}
+.admin .card h3 { /* Card titles */
+    font-size: 1.1rem;
+    color: var(--admin-secondary-color);
+    margin-bottom: 0.5rem;
+}
+.admin .card h1 { /* Statistic numbers */
+    font-size: 2.5rem;
+    color: var(--admin-primary-color);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+.admin .card a { /* "View All" links */
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--admin-secondary-color);
+    text-decoration: none;
+    margin-top: auto; /* Push to bottom */
+}
+.admin .card a:hover {
+    text-decoration: underline;
+    color: var(--admin-primary-color);
+}
+
+
+/* Admin Table Styling */
+.admin table#customers, .admin .listings-table { /* Generic admin table style */
+    width: 100%; /* Was 90% */
     border-collapse: collapse;
-    width: 90%;
+    margin-top: 1.5rem;
+    box-shadow: var(--admin-box-shadow);
+    border-radius: var(--admin-border-radius);
+    overflow: hidden; /* For border-radius on table */
 }
 
-table th, td {
-    border: 1px solid #9b9b9b;
-    padding: 0 20px;
+.admin table#customers th, .admin table#customers td,
+.admin .listings-table th, .admin .listings-table td {
+    border: 1px solid var(--admin-border-color); /* Was #9b9b9b */
+    padding: 0.75rem 1rem; /* Adjusted padding */
+    text-align: left;
+    font-size: 0.9rem;
 }
-
-/* Form */
-form {
-    width: 70%;
-    margin-top: 30px;
+.admin table#customers th, .admin .listings-table th {
+    background-color: var(--admin-light-bg); /* Was #f2f2f2 */
+    color: var(--admin-primary-color);
+    font-weight: 600;
 }
-
-input[type=text], select, [type="file"], textarea {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  input[type=submit] {
-    width: 10%;
-    background-color: #1ace56;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
+.admin table#customers tr:nth-child(even), .admin .listings-table tr:nth-child(even) {
+    background-color: #fcfcfc; /* Slightly different from main bg */
+}
+.admin table#customers tr:hover, .admin .listings-table tr:hover {
+    background-color: #f1f5f8; /* Hover color */
+}
+/* Action buttons in tables */
+.admin table .actions a, .admin table .actions button {
+    margin-right: 5px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85em;
+    border-radius: var(--admin-border-radius);
+    text-decoration: none;
+    color: var(--admin-text-light);
     cursor: pointer;
-  }
-  
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
+    border: none;
+}
+.admin table .actions .edit-badge, .admin table .actions .btn-edit { background-color: var(--admin-accent-color); color: var(--admin-primary-color); }
+.admin table .actions .edit-badge:hover, .admin table .actions .btn-edit:hover { background-color: #d8b050; }
+.admin table .actions .del-badge, .admin table .actions .btn-delete { background-color: var(--danger-color); color: var(--admin-text-light); }
+.admin table .actions .del-badge:hover, .admin table .actions .btn-delete:hover { background-color: #c0392b; }
+.admin table .actions .btn-status { background-color: var(--admin-secondary-color); }
+.admin table .actions .btn-status:hover { background-color: var(--admin-primary-color); }
 
-  .add-form {
-    background: #FFF;
-    padding: 20px 40px;
-    margin-top: 50px;
-  }
+
+/* Admin Form Styling */
+.admin form, .admin .add-form, .admin .property-form-admin { /* Generic admin form container */
+    width: 100%; /* Take full width of its container */
+    margin-top: 1.5rem; /* Was 30px */
+    background: var(--admin-text-light); /* Forms on light background */
+    padding: 1.5rem; /* Was 20px 40px */
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-box-shadow);
+}
+.admin .add-form h2, .admin .property-form-admin h2 { /* Titles within form containers */
+    font-size: 1.5rem;
+    color: var(--admin-primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--admin-border-color);
+}
+
+.admin form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    color: var(--admin-text-color);
+}
+.admin form input[type="text"],
+.admin form input[type="email"],
+.admin form input[type="password"],
+.admin form input[type="number"],
+.admin form input[type="file"],
+.admin form select,
+.admin form textarea {
+    width: 100%;
+    padding: 0.6rem 0.8rem; /* Adjusted padding */
+    margin-bottom: 0.8rem; /* Was 8px 0 */
+    display: inline-block;
+    border: 1px solid var(--admin-border-color); /* Was #ccc */
+    border-radius: var(--admin-border-radius); /* Was 4px */
+    box-sizing: border-box;
+    font-size: 0.95rem;
+}
+.admin form input[type="text"]:focus,
+.admin form input[type="email"]:focus,
+.admin form input[type="password"]:focus,
+.admin form input[type="number"]:focus,
+.admin form input[type="file"]:focus,
+.admin form select:focus,
+.admin form textarea:focus {
+    border-color: var(--admin-secondary-color);
+    box-shadow: 0 0 0 0.15rem rgba(42, 157, 143, 0.2);
+    outline: none;
+}
   
+.admin form input[type="submit"], .admin form button[type="submit"] { /* General submit button for admin forms */
+    min-width: 120px; /* Was 10% */
+    background-color: var(--admin-primary-color); /* Was #1ace56 */
+    color: var(--admin-text-light);
+    padding: 0.6rem 1.2rem; /* Was 14px 20px */
+    /* margin: 8px 0; Already covered by .btn */
+    border: none;
+    border-radius: var(--admin-border-radius); /* Was 4px */
+    cursor: pointer;
+    font-size: 1rem;
+}
+  
+.admin form input[type="submit"]:hover, .admin form button[type="submit"]:hover {
+    background-color: var(--admin-secondary-color); /* Was #45a049 */
+}
+
+/* User role update form in admin/users.php */
+.admin .user-role-form {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Spacing between select and button */
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    margin-top:0;
+}
+.admin .user-role-form select {
+    padding: 5px 8px;
+    font-size: 0.85rem;
+    margin-bottom: 0; /* Override general margin */
+}
+.admin .user-role-form .btn-update-role {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    min-width: auto; /* Override general submit width */
+}
+  
+/* Responsive adjustments for admin area */
+@media (max-width: 768px) {
+    .admin {
+        grid-template-columns: 1fr; /* Stack nav and main on smaller screens */
+        grid-template-rows: 60px 60px auto; /* Header, Nav, Main */
+        grid-template-areas:
+            "header"
+            "nav"
+            "main";
+        height: auto; /* Allow page to grow */
+    }
+    .admin__nav {
+        height: auto; /* Adjust nav height */
+        display: flex; /* For horizontal menu items if desired, or keep as is */
+        padding: 0 10px; /* Padding for horizontal menu */
+    }
+    .admin__nav .menu {
+        display: flex; /* Horizontal menu */
+        flex-wrap: wrap;
+        padding: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    .admin__nav .menu__item {
+        margin: 0 5px; /* Spacing for horizontal items */
+    }
+    .admin__nav .menu__item a.menu__link {
+        padding: 10px 8px; /* Adjust padding for horizontal links */
+        font-size: 0.9rem;
+    }
+    .admin__nav .menu__item a.menu__link:hover,
+    .admin__nav .menu__item a.menu__link.active {
+        padding-left: 8px; /* Reset padding-left on hover/active for horizontal */
+    }
+
+    .admin__main {
+        padding: 15px; /* Reduce padding on smaller screens */
+    }
+    .admin .dashboard-cards {
+        gap: 15px;
+    }
+    .admin .card {
+        flex-basis: 100%; /* Full width cards on small screens */
+    }
+    .admin form { /* Make forms take more space if needed */
+        width: 100%;
+    }
+}
