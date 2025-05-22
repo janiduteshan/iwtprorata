@@ -40,6 +40,17 @@
                         <?php echo $username; ?>
                     </span>
                     <ul class="subnav-content">
+                        <?php
+                        // Link to Admin Dashboard if user_type is admin
+                        if (isset($_SESSION['usertype']) && $_SESSION['usertype'] === 'admin') {
+                            echo '<li><a href="admin/dashboard.php">Admin Dashboard</a></li>';
+                        }
+
+                        // Link to Seller Dashboard if role is seller
+                        if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
+                            echo '<li><a href="seller/dashboard.php">Seller Dashboard</a></li>';
+                        }
+                        ?>
                         <li><a href="account-setting.php">Account Setting</a></li>
                         <!-- <li><a href="my-orders.php">My Order</a></li> -->
                         <li class="logout"><a href="logout.php"> Log Out</a></li>

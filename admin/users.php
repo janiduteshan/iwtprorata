@@ -49,6 +49,9 @@
   </nav>
         <main class="admin__main">
             <h2>Registered Users</h2>
+            <div style="margin-bottom: 20px;">
+                <a href="user-add.php" class="btn" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;">Add New User</a>
+            </div>
             <br>
             <table id="customers">
                 <tr>
@@ -59,7 +62,10 @@
                     <th>Address</th>
                     <th>City</th>
                     <th>Phone</th>
+                    <th>Role</th>
+                    <th>User Type (Legacy)</th>
                     <th>Reg Date</th>
+                    <th>Actions</th>
                 </tr>
                 <tr>
                     <?php
@@ -92,9 +98,21 @@
                             <td>
                                 <?php echo $row['phone']; ?>
                             </td>
-                           
+                            <td>
+                                <?php echo $row['role']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['user_type']; ?>
+                            </td>
                             <td>
                                 <?php echo $row['reg_date']; ?>
+                            </td>
+                            <td>
+                                <a href="user-edit.php?id=<?php echo $row['user_id']; ?>" class="btn-edit" style="margin-right: 5px;">Edit</a>
+                                <a href="user-process.php?deleteUser=true&id=<?php echo $row['user_id']; ?>" 
+                                   class="btn-delete" 
+                                   style="background-color: #f44336; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;"
+                                   onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                             </td>
                         </tr>
                         <?php

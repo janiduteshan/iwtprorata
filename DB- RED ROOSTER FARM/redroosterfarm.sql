@@ -107,6 +107,7 @@ CREATE TABLE `users` (
   `city` varchar(50) DEFAULT NULL,
   `phone` varchar(11) DEFAULT NULL,
   `user_type` varchar(5) DEFAULT 'user',
+  `role` VARCHAR(50) NOT NULL DEFAULT 'buyer',
   `reg_date` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 

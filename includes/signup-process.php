@@ -8,8 +8,8 @@ if (isset($_POST['signup'])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $sql = "INSERT INTO users (`username`, `password`, `full_name`, `email`, `reg_date`) 
-            VALUES ('$username', '$password', '$fullName', '$email', NOW())";
+    $sql = "INSERT INTO users (`username`, `password`, `full_name`, `email`, `role`, `reg_date`) 
+            VALUES ('$username', '$password', '$fullName', '$email', 'buyer', NOW())";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {

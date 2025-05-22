@@ -20,6 +20,7 @@
                 $_SESSION['address'] = $row['address'];
                 $_SESSION['city'] = $row['city'];
                 $_SESSION['phone'] = $row['phone'];
+                $_SESSION['role'] = $row['role'];
             }
 
             // Authentication successful
